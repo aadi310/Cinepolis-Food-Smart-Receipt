@@ -320,7 +320,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                       height={72}
                     />
                   </div>
-                  <div className="text-[8px] font-bold tracking-wider uppercase text-[#7742D8] mt-1">Scan at Counter</div>
+                  <div className="text-[8px] font-bold tracking-wider uppercase text-[#7742D8] mt-1">Scan to Enter</div>
                 </div>
                 <div className="font-mono text-xs space-y-1.5 text-[#4A3D63] pt-1">
                   <div className="flex gap-2"><span className="text-gray-400 w-20">Booking ID</span><span className="font-semibold">{currentOrder.bookingId}</span></div>
