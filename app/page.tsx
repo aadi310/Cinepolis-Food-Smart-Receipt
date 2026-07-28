@@ -28,6 +28,7 @@ const fmt = (n: number) =>
   `₹${n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
 const APP_LINK = "https://onelink.to/bcvnnr"
+const GST_RATE = 0.05 // 5% total = 2.5% CGST + 2.5% SGST
 
 // Zigzag torn-paper edge — classic thermal-receipt tear
 function ZigzagEdge({ flip = false }: { flip?: boolean }) {
@@ -94,7 +95,8 @@ export default function Home() {
     }
   }, [])
 
-  const orders = {
+  // Only the total order value (tax-inclusive) is source data — CGST/SGST/net are derived below
+  const rawOrders = {
     current: {
       bookingId: "2216",
       bookingNo: "WGJHLNZ",
@@ -106,10 +108,6 @@ export default function Home() {
         { name: "CINE SMILES 8PC NEW", qty: 1, price: 290.0 },
         { name: "SODAS 400ML", qty: 1, price: 460.0 },
       ],
-      fbPrice: 750.0,
-      cgst: 0.0,
-      sgst: 0.0,
-      totalFbPrice: 750.0,
       totalOrderValue: 750.0,
       gstin: "06AADCC2076J1ZQ",
       hsn: "9996",
@@ -127,10 +125,6 @@ export default function Home() {
         { name: "REGULAR POPCORN COMBO", qty: 1, price: 380.0 },
         { name: "COLD COFFEE 300ML", qty: 2, price: 320.0 },
       ],
-      fbPrice: 700.0,
-      cgst: 0.0,
-      sgst: 0.0,
-      totalFbPrice: 700.0,
       totalOrderValue: 700.0,
       gstin: "07AADCC2076J1ZO",
       hsn: "9996",
@@ -148,16 +142,27 @@ export default function Home() {
         { name: "NACHOS WITH CHEESE", qty: 1, price: 260.0 },
         { name: "MASALA POPCORN", qty: 1, price: 240.0 },
       ],
-      fbPrice: 500.0,
-      cgst: 0.0,
-      sgst: 0.0,
-      totalFbPrice: 500.0,
       totalOrderValue: 500.0,
       gstin: "06AADCC2076J1ZQ",
       hsn: "9996",
       sac: "9963",
       fssai: "10820005000077",
     },
+  }
+
+  // Derive net F&B price + CGST + SGST from the tax-inclusive total
+  const withTaxBreakup = (order: (typeof rawOrders)["current"]) => {
+    const totalTax = order.totalOrderValue - order.totalOrderValue / (1 + GST_RATE)
+    const cgst = totalTax / 2
+    const sgst = totalTax / 2
+    const fbPrice = order.totalOrderValue - cgst - sgst
+    return { ...order, fbPrice, cgst, sgst }
+  }
+
+  const orders = {
+    current: withTaxBreakup(rawOrders.current),
+    hist1: withTaxBreakup(rawOrders.hist1),
+    hist2: withTaxBreakup(rawOrders.hist2),
   }
 
   const currentOrder = orders[currentOrderId]
@@ -348,8 +353,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
               <div className="font-mono text-xs space-y-1.5 mb-3">
                 <div className="flex justify-between text-gray-500"><span>F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
                 <div className="flex justify-between text-gray-500"><span>CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
-                <div className="flex justify-between text-gray-500"><span>SGST (2.5%)</span><span>{fmt(currentOrder.sgst)}</span></div>
-                <div className="flex justify-between text-gray-500 pb-1.5 border-b border-dashed border-gray-300"><span>Total F&amp;B Price</span><span>{fmt(currentOrder.totalFbPrice)}</span></div>
+                <div className="flex justify-between text-gray-500 pb-1.5 border-b border-dashed border-gray-300"><span>SGST (2.5%)</span><span>{fmt(currentOrder.sgst)}</span></div>
               </div>
 
               {/* PAID stamp row */}
