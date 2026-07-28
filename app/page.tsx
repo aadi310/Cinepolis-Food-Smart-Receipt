@@ -108,6 +108,7 @@ export default function Home() {
       ],
       fbPrice: 750.0,
       cgst: 0.0,
+      sgst: 0.0,
       totalFbPrice: 750.0,
       totalOrderValue: 750.0,
       gstin: "06AADCC2076J1ZQ",
@@ -128,6 +129,7 @@ export default function Home() {
       ],
       fbPrice: 700.0,
       cgst: 0.0,
+      sgst: 0.0,
       totalFbPrice: 700.0,
       totalOrderValue: 700.0,
       gstin: "07AADCC2076J1ZO",
@@ -148,6 +150,7 @@ export default function Home() {
       ],
       fbPrice: 500.0,
       cgst: 0.0,
+      sgst: 0.0,
       totalFbPrice: 500.0,
       totalOrderValue: 500.0,
       gstin: "06AADCC2076J1ZQ",
@@ -242,6 +245,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
 <div class="totals-table">
   <div>F&amp;B Price: ${fmt(currentOrder.fbPrice)}</div>
   <div>CGST (2.5%): ${fmt(currentOrder.cgst)}</div>
+  <div>SGST (2.5%): ${fmt(currentOrder.sgst)}</div>
   <div class="net-total">Total Order Value: ${fmt(currentOrder.totalOrderValue)}</div>
 </div>
 <div class="footer">
@@ -311,7 +315,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                       height={72}
                     />
                   </div>
-                  <div className="text-[8px] font-bold tracking-wider uppercase text-[#7742D8] mt-1">Scan to Enter</div>
+                  <div className="text-[8px] font-bold tracking-wider uppercase text-[#7742D8] mt-1">Scan at Counter</div>
                 </div>
                 <div className="font-mono text-xs space-y-1.5 text-[#4A3D63] pt-1">
                   <div className="flex gap-2"><span className="text-gray-400 w-20">Booking ID</span><span className="font-semibold">{currentOrder.bookingId}</span></div>
@@ -344,6 +348,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
               <div className="font-mono text-xs space-y-1.5 mb-3">
                 <div className="flex justify-between text-gray-500"><span>F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
                 <div className="flex justify-between text-gray-500"><span>CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
+                <div className="flex justify-between text-gray-500"><span>SGST (2.5%)</span><span>{fmt(currentOrder.sgst)}</span></div>
                 <div className="flex justify-between text-gray-500 pb-1.5 border-b border-dashed border-gray-300"><span>Total F&amp;B Price</span><span>{fmt(currentOrder.totalFbPrice)}</span></div>
               </div>
 
@@ -546,7 +551,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
               </div>
               <span className="text-[10px] font-medium text-gray-600">Facebook</span>
             </button>
-            <button onClick={() => handleSocialLink("https://cinepolisindia.com/")} className="flex flex-col items-center">
+            <button onClick={() => handleSocialLink("https://www.cinepolisindia.com")} className="flex flex-col items-center">
               <div className="w-9 h-9 rounded-full bg-[#3D1B78] flex items-center justify-center mb-1">
                 <ExternalLink className="h-4 w-4 text-[#F9B233]" />
               </div>
@@ -557,7 +562,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
           {/* Powered By footer */}
           <div className="flex items-center justify-center gap-1.5 py-2 text-gray-400">
             <Zap className="h-3 w-3 fill-gray-300" />
-            <span className="text-[10px] font-medium">Powered by <span className="font-bold text-gray-500">SmartBill</span></span>
+            <span className="text-[10px] font-medium">Digital billing powered by <span className="font-bold text-gray-500">SmartBill</span></span>
           </div>
 
           <div id="height-marker" style={{ height: "1px" }} />
