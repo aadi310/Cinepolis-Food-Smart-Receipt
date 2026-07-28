@@ -277,7 +277,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
             <div className="pt-6 pb-6 px-5 text-center">
               <span className="inline-block bg-[#F9B233] text-black text-[10px] font-bold tracking-wide uppercase px-3 py-1 rounded-full mb-4">
                 <ScanLine className="inline h-3 w-3 mr-1 -mt-0.5" />
-                Tax Invoice
+                Scan to Enter
               </span>
 
               <h2 className="text-lg font-bold text-gray-900 mb-1">Tax Invoice</h2>
