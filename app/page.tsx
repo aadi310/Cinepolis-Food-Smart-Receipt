@@ -15,11 +15,14 @@ import {
   Star,
   ShoppingBag,
   Wallet,
-  Receipt,
   Smartphone,
   LifeBuoy,
   Zap,
-  ScanLine,
+  CheckCircle2,
+  Circle,
+  Soup,
+  Clock,
+  X,
 } from "lucide-react"
 
 // Indian Rupee formatter
@@ -27,6 +30,23 @@ const fmt = (n: number) =>
   `₹${n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
 const APP_LINK = "https://onelink.to/bcvnnr"
+
+// Scalloped / torn-paper edge — sits against the page background
+function ScallopEdge({ flip = false }: { flip?: boolean }) {
+  return (
+    <div
+      className="h-3 mx-3"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle at 7px 7px, transparent 7px, white 7.5px)",
+        backgroundSize: "14px 14px",
+        backgroundPosition: "0 0",
+        backgroundRepeat: "repeat-x",
+        transform: flip ? "rotate(180deg)" : "none",
+      }}
+    />
+  )
+}
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -175,27 +195,27 @@ export default function Home() {
 <head>
 <meta charset="UTF-8">
 <title>Cinépolis F&B Bill</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;width:800px;margin:0 auto;padding:24px;}
-.receipt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:16px;border-bottom:3px solid #7742D8;}
-.company-info h1{font-size:30px;color:#3D1B78;font-weight:700;margin-bottom:4px;}
+body{font-family:'Poppins',sans-serif;font-size:14px;color:#2B1608;background:#fff;width:800px;margin:0 auto;padding:24px;}
+.receipt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:3px dashed #E85D2B;}
+.company-info h1{font-size:30px;color:#C4401A;font-weight:700;margin-bottom:4px;}
 .company-info p{font-size:12px;color:#555;line-height:1.4;}
-.bill-info{text-align:right;font-size:12px;}
+.bill-info{text-align:right;font-family:'Roboto Mono',monospace;font-size:12px;}
 .bill-info div{margin-bottom:4px;}
-.bill-id{font-weight:600;color:#3D1B78;}
-.order-section{background:#F4EEFD;padding:14px;border-left:4px solid #7742D8;border-radius:0 8px 8px 0;margin-bottom:22px;}
-.order-section h3{font-size:16px;color:#3D1B78;font-weight:700;margin-bottom:2px;}
+.bill-id{font-weight:700;color:#C4401A;}
+.order-section{background:#FFF1E8;padding:14px;border-left:4px solid #E85D2B;border-radius:0 8px 8px 0;margin-bottom:22px;}
+.order-section h3{font-size:16px;color:#C4401A;font-weight:700;margin-bottom:2px;}
 .order-section p{font-size:12px;color:#666;}
-.items-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
-.items-table th{background:#3D1B78;color:#F9B233;padding:10px 8px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
-.items-table td{padding:12px 8px;border-bottom:1px solid #eee;font-size:12px;vertical-align:top;}
-.totals-table{text-align:right;min-width:220px;margin-left:auto;}
+.items-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-family:'Roboto Mono',monospace;}
+.items-table th{background:#C4401A;color:#FFE9A8;padding:10px 8px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
+.items-table td{padding:12px 8px;border-bottom:1px dashed #eee;font-size:12px;vertical-align:top;}
+.totals-table{text-align:right;min-width:220px;margin-left:auto;font-family:'Roboto Mono',monospace;}
 .totals-table div{margin-bottom:6px;font-size:13px;}
-.net-total{font-size:18px;font-weight:700;color:#3D1B78;border-top:2px solid #F9B233;padding-top:6px;margin-top:6px;}
+.net-total{font-size:18px;font-weight:700;color:#C4401A;border-top:2px solid #FFB238;padding-top:6px;margin-top:6px;}
 .footer{text-align:center;margin-top:30px;padding-top:20px;border-top:1px dashed #ccc;font-size:12px;color:#555;}
-.footer strong{color:#3D1B78;}
+.footer strong{color:#C4401A;}
 @media print{body{-webkit-print-color-adjust:exact;width:100%;padding:0;}}
 </style>
 </head>
@@ -252,145 +272,141 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
   const handleSocialLink = (url: string) => window.open(url, "_blank")
 
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center">
+    <div className="min-h-screen bg-[#FBF4EC] flex justify-center">
       <div
         id="receipt-root"
         ref={receiptContainerRef}
-        className="w-full max-w-md mx-auto bg-white shadow-lg relative overflow-hidden font-poppins"
+        className="w-full max-w-md mx-auto bg-transparent relative overflow-hidden font-poppins"
       >
-        <div className="flex flex-col w-full gap-3 pb-4 px-3">
+        <div className="flex flex-col w-full gap-3 pb-4">
 
           {/* Header */}
-          <div className="bg-gradient-to-br from-[#3D1B78] via-[#5B2A9E] to-[#7742D8] px-5 pt-6 pb-8 mt-4 mx-3 rounded-2xl text-center text-white">
-            <img
-              src="/images/design-mode/cinepolis.png"
-              alt="Cinépolis"
-              className="h-9 w-auto mx-auto mb-2"
+          <div className="bg-gradient-to-br from-[#7A1E0F] via-[#C4401A] to-[#E85D2B] px-5 pt-7 pb-6 text-center text-white relative overflow-hidden">
+            <div
+              className="absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle, white 1.5px, transparent 1.5px)",
+                backgroundSize: "16px 16px",
+              }}
             />
-            <div className="text-xs font-semibold tracking-[0.15em] uppercase opacity-90">{currentOrder.cinema}</div>
-          </div>
-
-          {/* Order Card — ends after F&B check-in note */}
-          <div className="bg-white rounded-2xl shadow-md border border-gray-200 mx-3 -mt-5 overflow-hidden relative">
-
-            {/* Order QR */}
-            <div className="pt-6 pb-6 px-5 text-center">
-              <span className="inline-block bg-[#F9B233] text-black text-[10px] font-bold tracking-wide uppercase px-3 py-1 rounded-full mb-4">
-                <ScanLine className="inline h-3 w-3 mr-1 -mt-0.5" />
-                Scan to Enter
-              </span>
-
-              <h2 className="text-lg font-bold text-gray-900 mb-1">Tax Invoice</h2>
-              <p className="text-xs text-gray-500 mb-4">Scan the QR code at the entrance of the cinema</p>
-
-              <div className="flex justify-center">
-                <div className="p-3 border-2 border-[#F9B233] rounded-2xl">
-                  <Image
-                    src="/images/design-mode/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
-                    alt="QR Code"
-                    width={160}
-                    height={160}
-                  />
-                </div>
+            <div className="relative">
+              <img
+                src="/images/design-mode/Cinepolis-Logo.png"
+                alt="Cinépolis"
+                className="h-8 w-auto mx-auto mb-2 brightness-0 invert"
+              />
+              <div className="inline-flex items-center gap-1.5 bg-white/15 rounded-full px-3 py-1 mb-1">
+                <Soup className="h-3 w-3 text-[#FFE9A8]" />
+                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#FFE9A8]">Snack Bar Order</span>
               </div>
-
-              <div className="mt-4 flex justify-center gap-8 text-left">
-                <div>
-                  <div className="text-[10px] text-gray-400 uppercase tracking-wide">Booking ID</div>
-                  <div className="text-xs font-semibold text-gray-900">{currentOrder.bookingId}</div>
-                </div>
-                <div>
-                  <div className="text-[10px] text-gray-400 uppercase tracking-wide">Booking No.</div>
-                  <div className="text-xs font-semibold text-gray-900">{currentOrder.bookingNo}</div>
-                </div>
-              </div>
-
-              <div className="mt-3 text-[11px] text-gray-500">
-                Order Date &amp; Time: {currentOrder.orderDate} | {currentOrder.orderTime}
-              </div>
-
-              <div className="mt-4 bg-[#F4EEFD] border border-[#DCC7F5] rounded-xl px-3 py-2.5 text-[11px] text-[#3D1B78] font-medium">
-                For F&amp;B orders, please check in through the app upon arriving at the cinema so we can begin preparing your order.
-              </div>
+              <div className="text-sm font-medium opacity-90 mt-1">{currentOrder.cinema}</div>
             </div>
           </div>
 
-          {/* Merged Card — Summary chips + Item Details + Cost Breakup */}
-          <div className="bg-white rounded-2xl shadow-md border border-gray-200 mx-3 overflow-hidden">
-
-            {/* Summary Chips */}
-            <div className="px-5 pt-5 pb-5">
-              <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#7742D8] mb-3">Food &amp; Beverages</div>
-
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="bg-gray-50 rounded-xl p-2.5 border border-gray-200">
-                  <ShoppingBag className="h-4 w-4 text-[#7742D8] mx-auto mb-1" />
-                  <div className="text-[10px] text-gray-500">Items</div>
-                  <div className="text-sm font-semibold text-gray-900">{totalItemsCount}</div>
+          {/* Order status stepper */}
+          <div className="mx-3 -mt-1 bg-white rounded-t-xl border border-b-0 border-[#F0D9C4] px-5 pt-4 pb-3">
+            <div className="flex items-center justify-between">
+              {["Order Placed", "Preparing", "Ready for Pickup"].map((label, idx) => (
+                <div key={label} className="flex-1 flex flex-col items-center relative">
+                  {idx < 2 && (
+                    <div className={`absolute top-2 left-1/2 w-full h-[2px] ${idx === 0 ? "bg-[#E85D2B]" : "bg-gray-200"}`} />
+                  )}
+                  {idx <= 1 ? (
+                    <CheckCircle2 className="h-4 w-4 text-[#E85D2B] bg-white relative z-10 mb-1" />
+                  ) : (
+                    <Circle className="h-4 w-4 text-gray-300 bg-white relative z-10 mb-1" />
+                  )}
+                  <span className={`text-[9px] text-center font-semibold ${idx <= 1 ? "text-[#C4401A]" : "text-gray-400"}`}>{label}</span>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-2.5 border border-gray-200">
-                  <Wallet className="h-4 w-4 text-[#7742D8] mx-auto mb-1" />
-                  <div className="text-[10px] text-gray-500">Payment</div>
-                  <div className="text-sm font-semibold text-gray-900">{currentOrder.paymentMethod}</div>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-2.5 border border-gray-200">
-                  <Receipt className="h-4 w-4 text-[#7742D8] mx-auto mb-1" />
-                  <div className="text-[10px] text-gray-500">Total</div>
-                  <div className="text-sm font-semibold text-gray-900">{fmt(currentOrder.totalOrderValue)}</div>
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
 
-            <div className="border-t border-gray-100 mx-5" />
+          {/* Receipt paper block */}
+          <div className="mx-3">
+            <ScallopEdge />
+            <div className="bg-white px-5 pt-5 pb-2">
 
-            {/* Item Details */}
-            <div className="px-5 pt-5 pb-5">
-              <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">Item Details</div>
-              <div className="space-y-3">
-                <div className="grid grid-cols-[1fr_auto_auto] gap-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wide pb-1 border-b border-gray-100">
-                  <span>Item Name</span>
-                  <span className="text-center">Qty</span>
-                  <span className="text-right">Total Price</span>
-                </div>
+              <div className="text-center mb-4">
+                <div className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C4401A]">Order Receipt</div>
+                <div className="mt-1 h-px bg-[repeating-linear-gradient(90deg,#E0C9B0_0px,#E0C9B0_4px,transparent_4px,transparent_8px)]" />
+              </div>
+
+              {/* Order meta — monospace ticket style */}
+              <div className="font-mono text-xs space-y-1.5 text-[#4A3320] mb-4">
+                <div className="flex justify-between"><span className="text-gray-400">Booking ID</span><span className="font-semibold">{currentOrder.bookingId}</span></div>
+                <div className="flex justify-between"><span className="text-gray-400">Booking No.</span><span className="font-semibold">{currentOrder.bookingNo}</span></div>
+                <div className="flex justify-between"><span className="text-gray-400">Date</span><span className="font-semibold">{currentOrder.orderDate}</span></div>
+                <div className="flex justify-between"><span className="text-gray-400">Time</span><span className="font-semibold">{currentOrder.orderTime}</span></div>
+                <div className="flex justify-between"><span className="text-gray-400">Payment</span><span className="font-semibold">{currentOrder.paymentMethod}</span></div>
+              </div>
+
+              <div className="h-px bg-[repeating-linear-gradient(90deg,#E0C9B0_0px,#E0C9B0_4px,transparent_4px,transparent_8px)] mb-4" />
+
+              {/* Items — dot leader style */}
+              <div className="space-y-2.5 mb-4">
                 {currentOrder.items.map((item, idx) => (
-                  <div key={idx} className="grid grid-cols-[1fr_auto_auto] gap-2 text-sm">
-                    <span className="text-gray-800 font-medium">{item.name}</span>
-                    <span className="text-center text-gray-600">x{item.qty}</span>
-                    <span className="text-right text-gray-900 font-semibold">{fmt(item.price)}</span>
+                  <div key={idx}>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-xs font-semibold text-[#2B1608] whitespace-nowrap">{item.name}</span>
+                      <span className="flex-1 border-b border-dotted border-gray-300 translate-y-[-3px]" />
+                      <span className="text-xs font-mono font-bold text-[#2B1608] whitespace-nowrap">{fmt(item.price)}</span>
+                    </div>
+                    <div className="text-[10px] text-gray-400 font-mono">Qty x{item.qty}</div>
                   </div>
                 ))}
               </div>
-            </div>
 
-            <div className="border-t border-gray-100 mx-5" />
+              <div className="h-px bg-[repeating-linear-gradient(90deg,#E0C9B0_0px,#E0C9B0_4px,transparent_4px,transparent_8px)] mb-4" />
 
-            {/* Cost Breakdown */}
-            <div className="px-5 pt-5 pb-5">
-              <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">Cost Breakup</div>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-gray-600">F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
-                <div className="flex justify-between"><span className="text-gray-600">CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
-                <div className="flex justify-between pt-2 border-t border-gray-100"><span className="text-gray-600">Total F&amp;B Price</span><span>{fmt(currentOrder.totalFbPrice)}</span></div>
-                <div className="flex justify-between text-base font-bold pt-2 border-t border-gray-200">
-                  <span className="text-gray-900">Total Order Value</span><span className="text-[#3D1B78]">{fmt(currentOrder.totalOrderValue)}</span>
+              {/* Totals */}
+              <div className="font-mono text-xs space-y-1.5 mb-2">
+                <div className="flex justify-between text-gray-500"><span>F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
+                <div className="flex justify-between text-gray-500"><span>CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
+                <div className="flex justify-between text-gray-500 pb-1.5 border-b border-dashed border-gray-300"><span>Total F&amp;B Price</span><span>{fmt(currentOrder.totalFbPrice)}</span></div>
+                <div className="flex justify-between items-center pt-1">
+                  <span className="text-sm font-bold text-[#2B1608] font-poppins">TOTAL PAID</span>
+                  <span className="text-lg font-bold text-[#C4401A]">{fmt(currentOrder.totalOrderValue)}</span>
+                </div>
+              </div>
+
+              {/* Item count badge row */}
+              <div className="flex justify-center gap-2 mt-4 mb-1">
+                <div className="inline-flex items-center gap-1 bg-[#FFF1E8] border border-[#F5D5B8] rounded-full px-3 py-1">
+                  <ShoppingBag className="h-3 w-3 text-[#C4401A]" />
+                  <span className="text-[10px] font-bold text-[#C4401A]">{totalItemsCount} Items</span>
+                </div>
+                <div className="inline-flex items-center gap-1 bg-[#FFF1E8] border border-[#F5D5B8] rounded-full px-3 py-1">
+                  <Wallet className="h-3 w-3 text-[#C4401A]" />
+                  <span className="text-[10px] font-bold text-[#C4401A]">{currentOrder.paymentMethod}</span>
                 </div>
               </div>
             </div>
+            <ScallopEdge flip />
+          </div>
+
+          {/* Pickup note */}
+          <div className="mx-3 bg-[#FFF8EE] border border-[#F5E1BE] rounded-xl px-4 py-3 flex items-start gap-2.5">
+            <Clock className="h-4 w-4 text-[#C4401A] mt-0.5 shrink-0" />
+            <p className="text-[11px] text-[#7A4A1E] font-medium leading-relaxed">
+              For F&amp;B orders, please check in through the app upon arriving at the cinema so we can begin preparing your order.
+            </p>
           </div>
 
           {/* Promo Banners — 1600x485 aspect ratio */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden mx-3 relative">
+          <div className="mx-3 relative rounded-xl overflow-hidden border border-[#F0D9C4]">
             <Carousel className="w-full" setApi={setPromoApi} opts={{ loop: true }}>
               <CarouselContent>
                 <CarouselItem>
-                  <div className="relative w-full aspect-[1600/485] bg-[#F4EEFD]">
+                  <div className="relative w-full aspect-[1600/485] bg-[#FFF1E8]">
                     <a href="https://www.instagram.com/cinepolisindia/?hl=en" target="_blank" rel="noopener noreferrer" className="absolute inset-0">
                       <Image src="/images/design-mode/cinepolis-food-banner-1.png" alt="Now at Cinépolis Snack Bar" fill className="object-cover" priority />
                     </a>
                   </div>
                 </CarouselItem>
                 <CarouselItem>
-                  <div className="relative w-full aspect-[1600/485] bg-[#F4EEFD]">
+                  <div className="relative w-full aspect-[1600/485] bg-[#FFF1E8]">
                     <a href="https://www.instagram.com/cinepolisindia/?hl=en" target="_blank" rel="noopener noreferrer" className="absolute inset-0">
                       <Image src="/images/design-mode/cinepolis-gift-card-banner-2.png" alt="Cinépolis Gift Cards" fill className="object-cover" />
                     </a>
@@ -400,27 +416,25 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
               <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10">
                 {[0, 1].map((index) => (
                   <button key={index} onClick={() => promoApi?.scrollTo(index)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === index ? "w-5 bg-[#F9B233]" : "w-1.5 bg-white/70"}`} />
+                    className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === index ? "w-5 bg-[#FFB238]" : "w-1.5 bg-white/70"}`} />
                 ))}
               </div>
             </Carousel>
           </div>
 
           {/* Rate Experience */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-md mx-3 p-4">
+          <div className="mx-3 bg-white rounded-xl border border-[#F0D9C4] p-4">
             {feedbackSubmitted ? (
-              <div className="text-center py-6 bg-green-50 rounded-xl border border-green-100">
+              <div className="text-center py-6 bg-[#F0FAF0] rounded-xl border border-green-100">
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"></path>
-                  </svg>
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
                 </div>
                 <div className="text-sm font-semibold text-gray-900 mb-1">Thanks for your feedback!</div>
                 <div className="text-xs text-gray-500">Your input helps us improve every Cinépolis order.</div>
               </div>
             ) : (
               <div className="space-y-4">
-                <h3 className="text-base font-semibold text-gray-900 text-center">Rate Your Experience</h3>
+                <h3 className="text-base font-semibold text-[#2B1608] text-center">How was your order?</h3>
 
                 <div className="flex justify-center gap-3 py-1">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -432,7 +446,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                       }}
                       className="transition-transform active:scale-90"
                     >
-                      <Star className={`h-8 w-8 transition-colors ${star <= rating ? "fill-[#F9B233] text-[#F9B233]" : "text-gray-300"}`} />
+                      <Star className={`h-8 w-8 transition-colors ${star <= rating ? "fill-[#FFB238] text-[#FFB238]" : "text-gray-300"}`} />
                     </button>
                   ))}
                 </div>
@@ -447,7 +461,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                       ).map((item) => (
                         <button key={item}
                           onClick={() => setSelectedTags((prev) => prev.includes(item) ? prev.filter((tag) => tag !== item) : [...prev, item])}
-                          className={`text-[11px] px-3 py-1.5 rounded-full border transition ${selectedTags.includes(item) ? "bg-[#3D1B78] text-white border-[#3D1B78]" : "border-gray-200 bg-gray-50"}`}>
+                          className={`text-[11px] px-3 py-1.5 rounded-full border transition ${selectedTags.includes(item) ? "bg-[#C4401A] text-white border-[#C4401A]" : "border-gray-200 bg-gray-50"}`}>
                           {item}
                         </button>
                       ))}
@@ -456,10 +470,10 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                 )}
 
                 <textarea rows={2} placeholder="Additional feedback (optional)"
-                  className="w-full p-3 text-xs border border-gray-200 rounded-xl focus:ring-1 focus:ring-[#7742D8] focus:border-[#7742D8] outline-none resize-none"
+                  className="w-full p-3 text-xs border border-gray-200 rounded-xl focus:ring-1 focus:ring-[#E85D2B] focus:border-[#E85D2B] outline-none resize-none"
                   value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} />
 
-                <button className="w-full bg-[#F9B233] hover:bg-[#e8a422] text-black h-10 text-xs font-semibold rounded-xl transition active:scale-[0.98]"
+                <button className="w-full bg-[#FFB238] hover:bg-[#f0a52a] text-[#2B1608] h-10 text-xs font-bold rounded-xl transition active:scale-[0.98]"
                   onClick={handleFeedbackSubmit} disabled={!rating}>
                   Submit Feedback
                 </button>
@@ -468,59 +482,57 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
           </div>
 
           {/* Download App CTA */}
-          <div className="bg-gradient-to-br from-[#3D1B78] via-[#5B2A9E] to-[#7742D8] rounded-2xl shadow-md mx-3 p-5 text-white">
+          <div className="mx-3 bg-gradient-to-br from-[#7A1E0F] via-[#C4401A] to-[#E85D2B] rounded-xl p-5 text-white">
             <div className="flex items-center">
               <div className="bg-white/15 p-3 rounded-xl mr-4">
-                <Smartphone className="h-6 w-6 text-[#F9B233]" />
+                <Smartphone className="h-6 w-6 text-[#FFE9A8]" />
               </div>
               <div className="flex-1">
                 <div className="text-sm font-semibold">Get the Cinépolis App</div>
-                <div className="text-[11px] opacity-80">Book faster, pre-order snacks & manage bookings on the go</div>
+                <div className="text-[11px] opacity-80">Pre-order snacks & skip the counter queue</div>
               </div>
             </div>
             <button onClick={handleDownloadApp}
-              className="w-full mt-4 bg-[#F9B233] hover:bg-[#e8a422] text-black h-10 text-xs font-bold rounded-xl transition active:scale-[0.98] flex items-center justify-center gap-2">
+              className="w-full mt-4 bg-[#FFB238] hover:bg-[#f0a52a] text-[#2B1608] h-10 text-xs font-bold rounded-xl transition active:scale-[0.98] flex items-center justify-center gap-2">
               <Download className="h-4 w-4" />
               Download App
             </button>
           </div>
 
-          {/* Quick Actions */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-md mx-3 p-4">
-            <div className="grid grid-cols-3 gap-3">
-              <button onClick={() => setShowOrderHistory(true)}
-                className="flex flex-col items-center justify-center bg-[#F4EEFD] border border-[#DCC7F5] rounded-xl py-3 active:scale-[0.98]">
-                <History className="h-5 w-5 text-[#3D1B78] mb-1" />
-                <span className="text-[11px] font-medium text-gray-700">Orders</span>
-              </button>
-              <button onClick={handleEmailReceipt}
-                className="flex flex-col items-center justify-center bg-[#F4EEFD] border border-[#DCC7F5] rounded-xl py-3 active:scale-[0.98]">
-                <Mail className="h-5 w-5 text-[#3D1B78] mb-1" />
-                <span className="text-[11px] font-medium text-gray-700">Email</span>
-              </button>
-              <button onClick={handleDownloadReceipt}
-                className="flex flex-col items-center justify-center bg-[#F4EEFD] border border-[#DCC7F5] rounded-xl py-3 active:scale-[0.98]">
-                <FileText className="h-5 w-5 text-[#3D1B78] mb-1" />
-                <span className="text-[11px] font-medium text-gray-700">Bill</span>
-              </button>
-            </div>
+          {/* Quick Actions — pill row */}
+          <div className="mx-3 flex gap-2">
+            <button onClick={() => setShowOrderHistory(true)}
+              className="flex-1 flex flex-col items-center justify-center bg-white border border-[#F0D9C4] rounded-xl py-3 active:scale-[0.98]">
+              <History className="h-5 w-5 text-[#C4401A] mb-1" />
+              <span className="text-[11px] font-medium text-gray-700">Orders</span>
+            </button>
+            <button onClick={handleEmailReceipt}
+              className="flex-1 flex flex-col items-center justify-center bg-white border border-[#F0D9C4] rounded-xl py-3 active:scale-[0.98]">
+              <Mail className="h-5 w-5 text-[#C4401A] mb-1" />
+              <span className="text-[11px] font-medium text-gray-700">Email</span>
+            </button>
+            <button onClick={handleDownloadReceipt}
+              className="flex-1 flex flex-col items-center justify-center bg-white border border-[#F0D9C4] rounded-xl py-3 active:scale-[0.98]">
+              <FileText className="h-5 w-5 text-[#C4401A] mb-1" />
+              <span className="text-[11px] font-medium text-gray-700">Bill</span>
+            </button>
           </div>
 
           {/* Help row — Terms & Not your bill */}
           <div className="mx-3 grid grid-cols-2 gap-3">
             <button onClick={() => setShowTerms(!showTerms)}
-              className="bg-white border border-gray-200 rounded-full py-2.5 text-xs font-semibold text-gray-700 shadow-sm active:scale-[0.98]">
+              className="bg-white border border-[#F0D9C4] rounded-full py-2.5 text-xs font-semibold text-gray-700 active:scale-[0.98]">
               Terms & Conditions
             </button>
             <button onClick={handleNeedHelp}
-              className="bg-white border border-gray-200 rounded-full py-2.5 text-xs font-semibold text-gray-700 shadow-sm active:scale-[0.98] flex items-center justify-center gap-1.5">
+              className="bg-white border border-[#F0D9C4] rounded-full py-2.5 text-xs font-semibold text-gray-700 active:scale-[0.98] flex items-center justify-center gap-1.5">
               <LifeBuoy className="h-3.5 w-3.5" />
               Not your bill?
             </button>
           </div>
 
           {showTerms && (
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-md mx-3 p-4 text-[11px] text-gray-500 space-y-1 font-medium">
+            <div className="mx-3 bg-white rounded-xl border border-[#F0D9C4] p-4 text-[11px] text-gray-500 space-y-1 font-medium">
               <p>• F&B orders once placed cannot be exchanged or refunded, subject to cinema policy.</p>
               <p>• Please collect your order at the counter within the show interval.</p>
               <p>• Pickup is permitted only against a valid QR code / order ID.</p>
@@ -529,7 +541,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
           )}
 
           {/* GST / HSN / SAC / FSSAI */}
-          <div className="mx-3 text-center text-[10px] text-gray-400 leading-relaxed">
+          <div className="mx-3 text-center text-[10px] text-gray-400 leading-relaxed font-mono">
             GSTIN: {currentOrder.gstin}<br />
             HSN: {currentOrder.hsn} &nbsp;|&nbsp; SAC: {currentOrder.sac}<br />
             FSSAI: {currentOrder.fssai}
@@ -550,8 +562,8 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
               <span className="text-[10px] font-medium text-gray-600">Facebook</span>
             </button>
             <button onClick={() => handleSocialLink("https://www.cinepolisindia.com")} className="flex flex-col items-center">
-              <div className="w-9 h-9 rounded-full bg-[#3D1B78] flex items-center justify-center mb-1">
-                <ExternalLink className="h-4 w-4 text-[#F9B233]" />
+              <div className="w-9 h-9 rounded-full bg-[#C4401A] flex items-center justify-center mb-1">
+                <ExternalLink className="h-4 w-4 text-[#FFE9A8]" />
               </div>
               <span className="text-[10px] font-medium text-gray-600">Website</span>
             </button>
@@ -570,18 +582,16 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
         {showOrderHistory && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center">
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowOrderHistory(false)} />
-            <div className="relative bg-white rounded-2xl w-full max-w-sm mx-4 shadow-2xl border border-gray-200 overflow-hidden">
+            <div className="relative bg-white rounded-2xl w-full max-w-sm mx-4 shadow-2xl border border-[#F0D9C4] overflow-hidden">
               <div className="flex justify-between items-center p-4 border-b border-gray-100">
                 <div className="flex items-center">
-                  <div className="bg-[#3D1B78] p-2 rounded-lg mr-3">
-                    <History className="h-4 w-4 text-[#F9B233]" />
+                  <div className="bg-[#C4401A] p-2 rounded-lg mr-3">
+                    <History className="h-4 w-4 text-[#FFE9A8]" />
                   </div>
                   <h3 className="text-sm font-semibold text-gray-900">Order History</h3>
                 </div>
                 <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100" onClick={() => setShowOrderHistory(false)}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-4 w-4 text-gray-500">
-                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" />
-                  </svg>
+                  <X className="h-4 w-4 text-gray-500" />
                 </button>
               </div>
               <div className="max-h-80 overflow-y-auto p-4 space-y-3">
@@ -593,16 +603,16 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                       setShowOrderHistory(false)
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }}
-                    className="w-full flex items-center p-3 bg-gray-50 border border-gray-200 rounded-xl hover:border-[#7742D8] transition"
+                    className="w-full flex items-center p-3 bg-[#FFF8EE] border border-[#F0D9C4] rounded-xl hover:border-[#E85D2B] transition"
                   >
-                    <div className="bg-white border border-gray-200 p-2 rounded-lg mr-3">
-                      <ShoppingBag className="h-4 w-4 text-[#3D1B78]" />
+                    <div className="bg-white border border-[#F0D9C4] p-2 rounded-lg mr-3">
+                      <ShoppingBag className="h-4 w-4 text-[#C4401A]" />
                     </div>
                     <div className="flex-grow text-left">
                       <div className="text-sm font-semibold text-gray-900 line-clamp-1">{order.label}</div>
                       <div className="text-[11px] text-gray-500">{order.date}</div>
                     </div>
-                    <div className="text-sm font-semibold text-[#3D1B78]">{fmt(order.amount)}</div>
+                    <div className="text-sm font-semibold text-[#C4401A]">{fmt(order.amount)}</div>
                   </button>
                 ))}
               </div>
