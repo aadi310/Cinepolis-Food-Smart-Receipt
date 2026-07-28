@@ -284,7 +284,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
             style={{ clipPath: "polygon(0 0, 100% 0, 100% 88%, 0 100%)" }}
           >
             <img
-              src="/images/design-mode/Cinepolis-Logo.png"
+              src="/images/design-mode/cinepolis.png"
               alt="Cinépolis"
               className="h-8 w-auto mx-auto mb-2 brightness-0 invert"
             />
@@ -311,7 +311,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                       height={72}
                     />
                   </div>
-                  <div className="text-[8px] font-bold tracking-wider uppercase text-[#7742D8] mt-1">Scan at Counter</div>
+                  <div className="text-[8px] font-bold tracking-wider uppercase text-[#7742D8] mt-1">Scan to Enter</div>
                 </div>
                 <div className="font-mono text-xs space-y-1.5 text-[#4A3D63] pt-1">
                   <div className="flex gap-2"><span className="text-gray-400 w-20">Booking ID</span><span className="font-semibold">{currentOrder.bookingId}</span></div>
@@ -557,7 +557,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
           {/* Powered By footer */}
           <div className="flex items-center justify-center gap-1.5 py-2 text-gray-400">
             <Zap className="h-3 w-3 fill-gray-300" />
-            <span className="text-[10px] font-medium">Digital billing powered by <span className="font-bold text-gray-500">SmartBill</span></span>
+            <span className="text-[10px] font-medium">Powered by <span className="font-bold text-gray-500">SmartBill</span></span>
           </div>
 
           <div id="height-marker" style={{ height: "1px" }} />
