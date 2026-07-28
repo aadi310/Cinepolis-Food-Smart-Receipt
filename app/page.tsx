@@ -263,18 +263,18 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
           {/* Header */}
           <div className="bg-gradient-to-br from-[#3D1B78] via-[#5B2A9E] to-[#7742D8] px-5 pt-6 pb-8 mt-4 mx-3 rounded-2xl text-center text-white">
             <img
-              src="/images/design-mode/Cinepolis-Logo.png"
+              src="/images/design-mode/cinepolis.png"
               alt="Cinépolis"
               className="h-9 w-auto mx-auto mb-2"
             />
             <div className="text-xs font-semibold tracking-[0.15em] uppercase opacity-90">{currentOrder.cinema}</div>
           </div>
 
-          {/* Order Card */}
+          {/* Order Card — ends after F&B check-in note */}
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 mx-3 -mt-5 overflow-hidden relative">
 
             {/* Order QR */}
-            <div className="pt-6 pb-5 px-5 text-center">
+            <div className="pt-6 pb-6 px-5 text-center">
               <span className="inline-block bg-[#F9B233] text-black text-[10px] font-bold tracking-wide uppercase px-3 py-1 rounded-full mb-4">
                 <ScanLine className="inline h-3 w-3 mr-1 -mt-0.5" />
                 Tax Invoice
@@ -313,16 +313,13 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                 For F&amp;B orders, please check in through the app upon arriving at the cinema so we can begin preparing your order.
               </div>
             </div>
+          </div>
 
-            {/* Perforation / tear line */}
-            <div className="relative">
-              <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-gray-50 rounded-full" />
-              <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-gray-50 rounded-full" />
-              <div className="border-t-2 border-dashed border-gray-200 mx-6" />
-            </div>
+          {/* Merged Card — Summary chips + Item Details + Cost Breakup */}
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 mx-3 overflow-hidden">
 
-            {/* Order Summary Chips */}
-            <div className="px-5 pt-5 pb-6">
+            {/* Summary Chips */}
+            <div className="px-5 pt-5 pb-5">
               <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#7742D8] mb-3">Food &amp; Beverages</div>
 
               <div className="grid grid-cols-3 gap-2 text-center">
@@ -343,36 +340,40 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Item Line Items */}
-          <div className="bg-white rounded-2xl shadow-md border border-gray-200 mx-3 p-4">
-            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">Item Details</div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-[1fr_auto_auto] gap-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wide pb-1 border-b border-gray-100">
-                <span>Item Name</span>
-                <span className="text-center">Qty</span>
-                <span className="text-right">Total Price</span>
-              </div>
-              {currentOrder.items.map((item, idx) => (
-                <div key={idx} className="grid grid-cols-[1fr_auto_auto] gap-2 text-sm">
-                  <span className="text-gray-800 font-medium">{item.name}</span>
-                  <span className="text-center text-gray-600">x{item.qty}</span>
-                  <span className="text-right text-gray-900 font-semibold">{fmt(item.price)}</span>
+            <div className="border-t border-gray-100 mx-5" />
+
+            {/* Item Details */}
+            <div className="px-5 pt-5 pb-5">
+              <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">Item Details</div>
+              <div className="space-y-3">
+                <div className="grid grid-cols-[1fr_auto_auto] gap-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wide pb-1 border-b border-gray-100">
+                  <span>Item Name</span>
+                  <span className="text-center">Qty</span>
+                  <span className="text-right">Total Price</span>
                 </div>
-              ))}
+                {currentOrder.items.map((item, idx) => (
+                  <div key={idx} className="grid grid-cols-[1fr_auto_auto] gap-2 text-sm">
+                    <span className="text-gray-800 font-medium">{item.name}</span>
+                    <span className="text-center text-gray-600">x{item.qty}</span>
+                    <span className="text-right text-gray-900 font-semibold">{fmt(item.price)}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Cost Breakdown */}
-          <div className="bg-white rounded-2xl shadow-md border border-gray-200 mx-3 p-4">
-            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">Cost Breakup</div>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-gray-600">F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
-              <div className="flex justify-between"><span className="text-gray-600">CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
-              <div className="flex justify-between pt-2 border-t border-gray-100"><span className="text-gray-600">Total F&amp;B Price</span><span>{fmt(currentOrder.totalFbPrice)}</span></div>
-              <div className="flex justify-between text-base font-bold pt-2 border-t border-gray-200">
-                <span className="text-gray-900">Total Order Value</span><span className="text-[#3D1B78]">{fmt(currentOrder.totalOrderValue)}</span>
+            <div className="border-t border-gray-100 mx-5" />
+
+            {/* Cost Breakdown */}
+            <div className="px-5 pt-5 pb-5">
+              <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">Cost Breakup</div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between"><span className="text-gray-600">F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
+                <div className="flex justify-between"><span className="text-gray-600">CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
+                <div className="flex justify-between pt-2 border-t border-gray-100"><span className="text-gray-600">Total F&amp;B Price</span><span>{fmt(currentOrder.totalFbPrice)}</span></div>
+                <div className="flex justify-between text-base font-bold pt-2 border-t border-gray-200">
+                  <span className="text-gray-900">Total Order Value</span><span className="text-[#3D1B78]">{fmt(currentOrder.totalOrderValue)}</span>
+                </div>
               </div>
             </div>
           </div>
