@@ -546,7 +546,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
               </div>
               <span className="text-[10px] font-medium text-gray-600">Facebook</span>
             </button>
-            <button onClick={() => handleSocialLink("https://www.cinepolisindia.com")} className="flex flex-col items-center">
+            <button onClick={() => handleSocialLink("https://cinepolisindia.com/")} className="flex flex-col items-center">
               <div className="w-9 h-9 rounded-full bg-[#3D1B78] flex items-center justify-center mb-1">
                 <ExternalLink className="h-4 w-4 text-[#F9B233]" />
               </div>
