@@ -52,25 +52,25 @@ function PaidStamp() {
   return (
     <svg viewBox="0 0 100 100" width="46" height="46" className="shrink-0" style={{ transform: "rotate(-8deg)" }}>
       <defs>
-        <path id="stampTopArc" d="M 18,50 A 32,32 0 1,1 82,50" fill="none" />
-        <path id="stampBottomArc" d="M 82,54 A 32,32 0 1,1 18,54" fill="none" />
+        <path id="stampTopArc" d="M 12,50 A 38,38 0 1,1 88,50" fill="none" />
+        <path id="stampBottomArc" d="M 12,52 A 38,38 0 1,0 88,52" fill="none" />
       </defs>
       {/* scalloped outer ring */}
       <circle cx="50" cy="50" r="47" fill="none" stroke="#3D1B78" strokeWidth="2.5" strokeDasharray="3.2 3.2" />
       {/* inner ring */}
-      <circle cx="50" cy="50" r="38" fill="none" stroke="#3D1B78" strokeWidth="1.3" />
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#3D1B78" strokeWidth="1.3" />
       {/* curved top text */}
-      <text fontSize="7.5" fontWeight="800" fill="#3D1B78" letterSpacing="1.5">
+      <text fontSize="6.5" fontWeight="800" fill="#3D1B78" letterSpacing="1">
         <textPath href="#stampTopArc" startOffset="50%" textAnchor="middle">
           THANK YOU
         </textPath>
       </text>
       {/* center PAID */}
-      <text x="50" y="57" fontSize="19" fontWeight="900" fill="#3D1B78" textAnchor="middle" fontFamily="Poppins, sans-serif" letterSpacing="1">
+      <text x="50" y="56" fontSize="17" fontWeight="900" fill="#3D1B78" textAnchor="middle" fontFamily="Poppins, sans-serif" letterSpacing="1">
         PAID
       </text>
-      {/* curved bottom text */}
-      <text fontSize="7.5" fontWeight="800" fill="#3D1B78" letterSpacing="1.5">
+      {/* curved bottom text — reversed arc so it reads right-side up */}
+      <text fontSize="6.5" fontWeight="800" fill="#3D1B78" letterSpacing="1">
         <textPath href="#stampBottomArc" startOffset="50%" textAnchor="middle">
           CINÉPOLIS
         </textPath>
