@@ -216,10 +216,11 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
 .order-section p{font-size:12px;color:#666;}
 .items-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-family:'Roboto Mono',monospace;}
 .items-table th{background:#3D1B78;color:#F9B233;padding:10px 8px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
+.items-table th:last-child, .items-table td:last-child{text-align:right;}
+.items-table th:nth-child(2), .items-table td:nth-child(2){text-align:center;}
 .items-table td{padding:12px 8px;border-bottom:1px dashed #eee;font-size:12px;vertical-align:top;}
-.totals-table{text-align:right;min-width:220px;margin-left:auto;font-family:'Roboto Mono',monospace;}
-.totals-table div{margin-bottom:6px;font-size:13px;}
-.net-total{font-size:18px;font-weight:700;color:#3D1B78;border-top:2px solid #F9B233;padding-top:6px;margin-top:6px;}
+.totals-row td{color:#666;font-size:12px;border-bottom:none;padding:6px 8px;}
+.net-total-row td{font-weight:700;color:#3D1B78;font-size:16px;border-top:2px solid #F9B233;padding:12px 8px 4px;}
 .footer{text-align:center;margin-top:30px;padding-top:20px;border-top:1px dashed #ccc;font-size:12px;color:#555;}
 .footer strong{color:#3D1B78;}
 @media print{body{-webkit-print-color-adjust:exact;width:100%;padding:0;}}
@@ -245,14 +246,12 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
   <thead><tr><th>Item Name</th><th>Qty</th><th>Total Price</th></tr></thead>
   <tbody>
     ${itemRows}
+    <tr class="totals-row"><td colspan="2">F&amp;B Price</td><td>${fmt(currentOrder.fbPrice)}</td></tr>
+    <tr class="totals-row"><td colspan="2">CGST (2.5%)</td><td>${fmt(currentOrder.cgst)}</td></tr>
+    <tr class="totals-row"><td colspan="2">SGST (2.5%)</td><td>${fmt(currentOrder.sgst)}</td></tr>
+    <tr class="net-total-row"><td colspan="2">Total Order Value</td><td>${fmt(currentOrder.totalOrderValue)}</td></tr>
   </tbody>
 </table>
-<div class="totals-table">
-  <div>F&amp;B Price: ${fmt(currentOrder.fbPrice)}</div>
-  <div>CGST (2.5%): ${fmt(currentOrder.cgst)}</div>
-  <div>SGST (2.5%): ${fmt(currentOrder.sgst)}</div>
-  <div class="net-total">Total Order Value: ${fmt(currentOrder.totalOrderValue)}</div>
-</div>
 <div class="footer">
   <p><strong>Enjoy your snacks! See you again at Cinépolis.</strong></p>
   <p>GSTIN: ${currentOrder.gstin} | HSN: ${currentOrder.hsn} | SAC: ${currentOrder.sac}</p>
@@ -266,7 +265,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
     const url = URL.createObjectURL(blob)
     const link = document.createElement("a")
     link.href = url
-    link.download = `Cinepolis_FnB_Bill_${currentOrder.bookingId}.html`
+    link.download = `Cinepolis_FnB_Bill_${currentOrder.invoiceNo || currentOrder.bookingId}.html`
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -285,13 +284,10 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
         ref={receiptContainerRef}
         className="w-full max-w-md mx-auto bg-transparent relative overflow-hidden font-poppins"
       >
-        <div className="flex flex-col w-full gap-3 pb-4">
+        <div className="flex flex-col w-full gap-3 pb-4 pt-4">
 
-          {/* Header — angled cut, torn-from-a-roll feel */}
-          <div
-            className="bg-gradient-to-br from-[#3D1B78] via-[#5B2A9E] to-[#7742D8] px-5 pt-7 pb-9 text-center text-white relative"
-            style={{ clipPath: "polygon(0 0, 100% 0, 100% 88%, 0 100%)" }}
-          >
+          {/* Header — straight bottom edge, same width as other cards */}
+          <div className="mx-3 bg-gradient-to-br from-[#3D1B78] via-[#5B2A9E] to-[#7742D8] px-5 pt-7 pb-7 text-center text-white rounded-2xl">
             <img
               src="/images/design-mode/cinepolis.png"
               alt="Cinépolis"
@@ -305,7 +301,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
           </div>
 
           {/* Receipt paper block — zigzag torn edges, monospace ticket styling */}
-          <div className="mx-3 -mt-5 relative z-10">
+          <div className="mx-3 relative z-10">
             <ZigzagEdge />
             <div className="bg-white px-5 pt-5 pb-2 shadow-md">
 
@@ -349,36 +345,33 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
 
               <div className="h-px bg-[repeating-linear-gradient(90deg,#DCC7F5_0px,#DCC7F5_4px,transparent_4px,transparent_8px)] mb-4" />
 
-              {/* Totals */}
+              {/* Totals — labels left, amounts right, one consistent column */}
               <div className="font-mono text-xs space-y-1.5 mb-3">
                 <div className="flex justify-between text-gray-500"><span>F&amp;B Price</span><span>{fmt(currentOrder.fbPrice)}</span></div>
                 <div className="flex justify-between text-gray-500"><span>CGST (2.5%)</span><span>{fmt(currentOrder.cgst)}</span></div>
                 <div className="flex justify-between text-gray-500 pb-1.5 border-b border-dashed border-gray-300"><span>SGST (2.5%)</span><span>{fmt(currentOrder.sgst)}</span></div>
               </div>
 
-              {/* PAID stamp row */}
-              <div className="flex items-center justify-between pb-1">
-                <span className="text-sm font-bold text-gray-900">TOTAL PAID</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-[#3D1B78]">{fmt(currentOrder.totalOrderValue)}</span>
+              {/* Total paid — label on its own line, stamp + amount below, same right alignment as rows above */}
+              <div className="pb-1">
+                <div className="text-sm font-bold text-gray-900 mb-1.5">TOTAL PAID</div>
+                <div className="flex items-center justify-between">
                   <span
                     className="border-2 border-[#3D1B78] text-[#3D1B78] text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-sm"
-                    style={{ transform: "rotate(-8deg)" }}
+                    style={{ transform: "rotate(-6deg)" }}
                   >
                     Paid
                   </span>
+                  <span className="text-lg font-bold text-[#3D1B78]">{fmt(currentOrder.totalOrderValue)}</span>
                 </div>
               </div>
             </div>
             <ZigzagEdge flip />
           </div>
 
-          {/* Pickup instructions — rotated stamp badge */}
+          {/* Pickup instructions — straight, not rotated */}
           <div className="mx-3 flex justify-center py-1">
-            <div
-              className="inline-flex items-center gap-2 bg-[#F4EEFD] border-2 border-dashed border-[#7742D8] rounded-lg px-4 py-2"
-              style={{ transform: "rotate(-1.5deg)" }}
-            >
+            <div className="inline-flex items-center gap-2 bg-[#F4EEFD] border-2 border-dashed border-[#7742D8] rounded-lg px-4 py-2">
               <Clock className="h-4 w-4 text-[#3D1B78] shrink-0" />
               <p className="text-[11px] text-[#3D1B78] font-semibold leading-relaxed text-left">
                 Check in via the app on arrival — we'll start preparing your order.
