@@ -47,6 +47,38 @@ function ZigzagEdge({ flip = false }: { flip?: boolean }) {
   )
 }
 
+// Circular scalloped "PAID" stamp — brand purple
+function PaidStamp() {
+  return (
+    <svg viewBox="0 0 100 100" width="46" height="46" className="shrink-0" style={{ transform: "rotate(-8deg)" }}>
+      <defs>
+        <path id="stampTopArc" d="M 18,50 A 32,32 0 1,1 82,50" fill="none" />
+        <path id="stampBottomArc" d="M 82,54 A 32,32 0 1,1 18,54" fill="none" />
+      </defs>
+      {/* scalloped outer ring */}
+      <circle cx="50" cy="50" r="47" fill="none" stroke="#3D1B78" strokeWidth="2.5" strokeDasharray="3.2 3.2" />
+      {/* inner ring */}
+      <circle cx="50" cy="50" r="38" fill="none" stroke="#3D1B78" strokeWidth="1.3" />
+      {/* curved top text */}
+      <text fontSize="7.5" fontWeight="800" fill="#3D1B78" letterSpacing="1.5">
+        <textPath href="#stampTopArc" startOffset="50%" textAnchor="middle">
+          THANK YOU
+        </textPath>
+      </text>
+      {/* center PAID */}
+      <text x="50" y="57" fontSize="19" fontWeight="900" fill="#3D1B78" textAnchor="middle" fontFamily="Poppins, sans-serif" letterSpacing="1">
+        PAID
+      </text>
+      {/* curved bottom text */}
+      <text fontSize="7.5" fontWeight="800" fill="#3D1B78" letterSpacing="1.5">
+        <textPath href="#stampBottomArc" startOffset="50%" textAnchor="middle">
+          CINÉPOLIS
+        </textPath>
+      </text>
+    </svg>
+  )
+}
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [showTerms, setShowTerms] = useState(false)
@@ -265,7 +297,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
     const url = URL.createObjectURL(blob)
     const link = document.createElement("a")
     link.href = url
-    link.download = `Cinepolis_FnB_Bill_${currentOrder.invoiceNo || currentOrder.bookingId}.html`
+    link.download = `Cinepolis_FnB_Bill_${currentOrder.bookingId}.html`
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -352,16 +384,11 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#111;background:#fff;
                 <div className="flex justify-between text-gray-500 pb-1.5 border-b border-dashed border-gray-300"><span>SGST (2.5%)</span><span>{fmt(currentOrder.sgst)}</span></div>
               </div>
 
-              {/* Total paid — label on its own line, stamp + amount below, same right alignment as rows above */}
-              <div className="pb-1">
-                <div className="text-sm font-bold text-gray-900 mb-1.5">TOTAL PAID</div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="border-2 border-[#3D1B78] text-[#3D1B78] text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-sm"
-                    style={{ transform: "rotate(-6deg)" }}
-                  >
-                    Paid
-                  </span>
+              {/* Total paid — label left, stamp directly beside amount on the right */}
+              <div className="flex items-center justify-between pb-1">
+                <span className="text-sm font-bold text-gray-900">TOTAL PAID</span>
+                <div className="flex items-center gap-2">
+                  <PaidStamp />
                   <span className="text-lg font-bold text-[#3D1B78]">{fmt(currentOrder.totalOrderValue)}</span>
                 </div>
               </div>
